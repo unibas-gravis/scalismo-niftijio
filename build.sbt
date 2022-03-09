@@ -18,10 +18,16 @@ ThisBuild / publishTo := Some(Opts.resolver.sonatypeSnapshots)
 /*
  * dummy package to manage vtk.jar
  */   
-lazy val niftijioJar = (project in file("niftijio"))
+lazy val niftijioJar = (project in file("niftijiojar"))
     .settings(
-        name := "scalismo-niftijio",
+        name := "scalismo-niftijioJar",
         Compile / packageBin := baseDirectory.value / "lib"/ "niftijio.jar"
     )
 
+lazy val hdf5JavaNatives = (project in file("scalismo-niftijio"))
+.dependsOn(niftijioJar)
+.aggregate(niftijioJar)
+.settings(
+    javacOptions ++= Seq("--release", "8") 
+)
 
